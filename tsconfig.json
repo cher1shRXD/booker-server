@@ -5,7 +5,9 @@
     "target": "ESNext",
     "outDir": "dist",
     "rootDir": "src",
-    "strict": true
+    "strict": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": ["src"]
 }

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { forbiddenError, unauthorizedError } from "../error/error.js";
+import { forbiddenError, unauthorizedError } from "../error/errors.js";
 
 const SECRET_KEY = process.env.JWT_SECRET || "your-secret-key";
 

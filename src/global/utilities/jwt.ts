@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config";
+import {redisClient} from "../database/redis.js";
 
 const secretKey = process.env.JWT_SECRET || "testsecretkey";
 
@@ -15,14 +16,16 @@ interface TokenResponse {
   refreshToken: string;
 }
 
-export const generateToken = (payload: object): TokenResponse => {
-  const accessToken = jwt.sign(payload, secretKey, {
+export const generateToken = async (payload: string): Promise<TokenResponse> => {
+  const accessToken = jwt.sign({ username: payload }, secretKey, {
     expiresIn: accessTokenExpire,
   });
-  const refreshToken = jwt.sign(payload, secretKey, {
+  const refreshToken = jwt.sign({ username: payload }, secretKey, {
     expiresIn: refreshTokenExpire,
   });
 
+  await redisClient.set(refreshToken, payload);
+  
   return {
     accessToken,
     refreshToken,

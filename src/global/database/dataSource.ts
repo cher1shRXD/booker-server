@@ -1,7 +1,8 @@
 import { DataSource } from "typeorm";
-import dotenv from "dotenv";
+import "dotenv/config";
+import {UserEntity} from "../../domain/user/entity/userEntity.js";
+import {LibraryEntity} from "../../domain/library/entity/libraryEntity.js";
 
-dotenv.config();
 
 export const BookerDataSource = new DataSource({
   type: "mariadb",
@@ -12,7 +13,7 @@ export const BookerDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: process.env.NODE_ENV !== "production",
   logging: process.env.NODE_ENV !== "production",
-  entities: [],
+  entities: [UserEntity, LibraryEntity],
   migrations: ["src/migrations/**/*.ts"],
   subscribers: ["src/subscribers/**/*.ts"],
 });

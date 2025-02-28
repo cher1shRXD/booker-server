@@ -16,6 +16,6 @@ export const conflictError = (res: Response) => {
   return res.status(409).json({ message: "Conflict" });
 };
 
-export const internalServerError = (res: Response) => {
-  return res.status(500).json({ message: "Internal Server Error" });
+export const internalServerError = (res: Response, error: any) => {
+  return res.status(500).json({ message: "Internal Server Error", detail: error });
 };
