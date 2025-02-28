@@ -1,7 +1,10 @@
 import { DataSource } from "typeorm";
 import "dotenv/config";
+import "reflect-metadata"
 import {UserEntity} from "../../domain/user/entity/userEntity.js";
 import {LibraryEntity} from "../../domain/library/entity/libraryEntity.js";
+import {BookEntity} from "../../domain/book/entity/bookEntity.js";
+import {PageEntity} from "../../domain/book/entity/pageEntity.js";
 
 
 export const BookerDataSource = new DataSource({
@@ -13,7 +16,7 @@ export const BookerDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: process.env.NODE_ENV !== "production",
   logging: process.env.NODE_ENV !== "production",
-  entities: [UserEntity, LibraryEntity],
+  entities: [UserEntity, LibraryEntity, BookEntity, PageEntity],
   migrations: ["src/migrations/**/*.ts"],
   subscribers: ["src/subscribers/**/*.ts"],
 });

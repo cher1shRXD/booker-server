@@ -1,5 +1,6 @@
-import "reflect-metadata";
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {LibraryEntity} from "../../library/entity/libraryEntity.js";
+import {BookEntity} from "../../book/entity/bookEntity.js";
 
 @Entity()
 export class UserEntity {
@@ -15,6 +16,9 @@ export class UserEntity {
   @Column({ type: 'int', nullable: false })
   credit?: number;
   
-  @Column({ type: 'int', nullable: false })
-  library?: number;
+  @OneToMany(() => LibraryEntity, (library) => library.user)
+  library?: LibraryEntity[];
+  
+  @OneToMany(() => BookEntity, (book) => book.author)
+  book?: BookEntity[];
 }

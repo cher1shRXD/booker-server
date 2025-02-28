@@ -13,20 +13,23 @@ export const jwtProvider = (
   req: AuthRequest,
   res: Response,
   next: NextFunction
-) => {
+): void => {
   const authHeader = req.headers.authorization;
-
+  console.log(authHeader);
+  
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return unauthorizedError(res);
+    unauthorizedError(res);
+    return;
   }
-
+  
   const token = authHeader.split(" ")[1];
-
+  
   jwt.verify(token, SECRET_KEY, (err, decoded) => {
-    if (err) {
+    if (err || !decoded) {
       forbiddenError(res);
+      return;
     }
-    req.user = decoded;
+    req.user = (decoded as { username: string })?.username;
     next();
   });
 };

@@ -1,4 +1,8 @@
-export interface LoginRequest {
-  username: string;
-  password: string;
+import { Request } from 'express';
+
+export interface LoginRequest extends Request {
+  body: {
+    username: string;
+    password: string;
+  }
 }

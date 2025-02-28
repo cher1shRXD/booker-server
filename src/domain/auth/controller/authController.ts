@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Response } from "express";
 import { AuthService } from "../service/authService.js";
 import { SignupRequest } from "../dto/request/signupRequest.js";
 import { conflictError, internalServerError, notFoundError, unauthorizedError } from "../../../global/error/errors.js";
@@ -12,45 +12,48 @@ export class AuthController {
     this.authService = new AuthService();
   }
   
-  public signup = async (req: Request<{}, {}, SignupRequest>, res: Response) => {
+  public signup = async (req: SignupRequest, res: Response) => {
     const { username, password } = req.body;
     
     try {
-      const result = await this.authService.signup(username, password);
-      return res.status(201).json(result);
+      const token = await this.authService.signup(username, password);
+      return res.status(201).json(token);
     } catch (error) {
-      if (error === "409") {
+      const err = error as Error
+      if (err.message === "409") {
         return conflictError(res);
       }
       return internalServerError(res, error);
     }
   };
   
-  public login = async (req: Request<{}, {}, LoginRequest>, res: Response) => {
+  public login = async (req: LoginRequest, res: Response) => {
     const { username, password } = req.body;
     
     try {
-      const result = await this.authService.login(username, password);
-      return res.status(200).json(result);
+      const token = await this.authService.login(username, password);
+      return res.status(200).json(token);
     } catch (error) {
-      if (error === "404") {
+      const err = error as Error
+      if (err.message === "404") {
         return notFoundError(res);
       }
-      if (error === "401") {
+      if (err.message === "401") {
         return unauthorizedError(res);
       }
       return internalServerError(res, error);
     }
   };
   
-  public reissue = async (req: Request<{}, {}, ReissueRequest>, res: Response) => {
+  public reissue = async (req: ReissueRequest, res: Response) => {
     const { refreshToken } = req.body;
     
     try {
-      const result = await this.authService.reissue(refreshToken);
-      return res.status(200).json(result);
+      const token = await this.authService.reissue(refreshToken);
+      return res.status(200).json(token);
     } catch (error) {
-      if (error === "404") {
+      const err = error as Error
+      if (err.message === "404") {
         return notFoundError(res);
       }
       return internalServerError(res, error);
