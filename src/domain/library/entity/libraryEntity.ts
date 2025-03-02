@@ -7,9 +7,11 @@ export class LibraryEntity {
   @PrimaryGeneratedColumn()
   id?: number;
   
+  @Column({ type: 'int' })
   @ManyToOne(() => BookEntity, (book) => book.library, { onDelete: "CASCADE" })
   book?: BookEntity;
   
+  @Column({ type: 'int' })
   @ManyToOne(() => UserEntity, (user) => user.library, { onDelete: "CASCADE" })
   user?: UserEntity;
   

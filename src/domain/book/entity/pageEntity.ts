@@ -12,6 +12,7 @@ export class PageEntity {
   @Column({ type: 'int' })
   pageNumber?: number;
   
+  @Column({ type: 'int' })
   @ManyToOne(() => BookEntity, (book) => book.pages)
   book?: BookEntity;
 }

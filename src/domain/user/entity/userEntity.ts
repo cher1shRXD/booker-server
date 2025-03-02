@@ -16,9 +16,11 @@ export class UserEntity {
   @Column({ type: 'int', nullable: false })
   credit?: number;
   
+  @Column({ type: 'int' })
   @OneToMany(() => LibraryEntity, (library) => library.user)
   library?: LibraryEntity[];
   
+  @Column({ type: 'int' })
   @OneToMany(() => BookEntity, (book) => book.author)
   book?: BookEntity[];
 }
